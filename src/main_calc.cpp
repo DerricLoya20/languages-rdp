@@ -36,6 +36,11 @@ int main(int argc, const char *argv[]) {
     return 1;
   }
 
+//Put loop around here
+  for(;;){
+    Token:: Ptr eof == calc.scanner->next();
+    if (eof->getType() == TokenType::eof) break;
+    calc.scanner->putBack(eof);
   if (!calc.parse()) {
     std::cerr << "syntax error: " << calc.prog->toJSON() << std::endl;
     return 1;
@@ -44,5 +49,8 @@ int main(int argc, const char *argv[]) {
   calc.run();
   
   std::cout << "ans=" << calc.ans << std::endl;
+  }
   return 0;
+
+  //and here
 }

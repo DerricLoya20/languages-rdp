@@ -78,7 +78,7 @@ TEST(Token,Number) {
 
 TEST(Token,Simple) {
   for (auto tokenType : { TokenType::add, TokenType::sub, TokenType::times,TokenType::divide,
-			   TokenType::lparen, TokenType::rparen, TokenType::eof }) {
+			   TokenType::lparen, TokenType::rparen, TokenType::eof, TokenType::eoe }) {
     int line = 13;
     int col = 2;
     Token::Ptr token;
@@ -92,6 +92,7 @@ TEST(Token,Simple) {
     case TokenType::lparen: token=Token::lparen(line,col); strTokenType="lparen"; break;
     case TokenType::rparen: token=Token::rparen(line,col); strTokenType="rparen"; break;
     case TokenType::eof:    token=Token::eof(line,col);    strTokenType="eof";    break;
+    case TokenType::eoe:    token=Token::eoe(line,col);    strTokenType="eoe";    break;
     default: throw std::range_error("invalid");
     }
 

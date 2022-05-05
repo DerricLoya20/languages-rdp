@@ -15,6 +15,7 @@ std::string TokenTypeToJSON(TokenType tokenType) {
   case TokenType::rparen: return "rparen";
   case TokenType::eof: return "eof";
   case TokenType::unrecognized: return "unrecognized";
+  case TokenType::eoe: return "eoe";
   default: throw std::range_error("invalid token type");
   }
 }
@@ -30,6 +31,7 @@ TokenType JSONToTokenType(const std::string &jsonTokenType) {
   if (jsonTokenType == "lparen") return TokenType::lparen;
   if (jsonTokenType == "rparen") return TokenType::rparen;
   if (jsonTokenType == "eof") return TokenType::eof;
+  if (jsonTokenType == "eoe") return TokenType::eoe;
   if (jsonTokenType == "unrecognized") return TokenType::unrecognized;
   throw std::range_error("invalid token string");
 }
@@ -100,6 +102,10 @@ Token::Ptr Token::rparen(int line, int col) {
 
 Token::Ptr Token::eof(int line, int col) {
   return base(TokenType::eof,line,col);
+}
+
+Token::Ptr Token::eoe(int line, int col) {
+  return base(TokenType::eoe, line, col);
 }
 
 Token::Ptr Token::unrecognized(const std::string &what, int line, int col) {

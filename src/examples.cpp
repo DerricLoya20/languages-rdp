@@ -50,7 +50,8 @@ Example::Ptr ex1() {
   Token::Ptr tk5Store = append(tokens,Token::keyword("S",line,col++));
   Token::Ptr tk6Times = append(tokens,Token::times(line,col++));
   Token::Ptr tk7Recall = append(tokens,Token::keyword("R",line,col++));
-  Token::Ptr tk8Eof = append(tokens,Token::eof(line,col++));
+  Token::Ptr tk8Eoe = append(tokens, Token::eoe(line, col));
+  Token::Ptr tk9Eof = append(tokens,Token::eof(line,col++));
 
   AST::Ptr ast =
     AST::times(tk6Times,

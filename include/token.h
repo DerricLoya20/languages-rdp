@@ -2,10 +2,11 @@
 
 #include "port.h"
 
+//eoe is end of expression
 enum class TokenType { 
     identifier,keyword,number,
     add,sub,times,divide, 
-    lparen, rparen,eof,unrecognized 
+    lparen, rparen,eof,unrecognized, eoe 
 };
 
 std::string TokenTypeToJSON(TokenType tokenType);
@@ -34,6 +35,7 @@ public:
   static Ptr rparen(int line, int col);
   static Ptr eof(int line, int col);
   static Ptr unrecognized(const std::string &what, int line, int col);
+  static Ptr eoe(int line, int col);
   
   Token();
   Token(const JSON &_obj);

@@ -235,6 +235,7 @@ public:
       return Token::number(value,g.line,g.col);
     }
     if (g.ch == -1) return Token::eof(g.line,g.col);
+    if (g.ch == '?') return Token::eoe(g.line, g.col);
     return Token::unrecognized(std::string(1,char(g.ch)),g.line,g.col);
   }
 };

@@ -93,7 +93,8 @@ struct RealParser : Parser {
   Token::Ptr SUB()    { return next(TokenType::sub); }
   Token::Ptr TIMES()    { return next(TokenType::times); }
   Token::Ptr DIVIDE()    { return next(TokenType::divide); }
-  Token::Ptr END_OF_FILE()    { return next(TokenType::eof); }  
+  Token::Ptr END_OF_FILE()    { return next(TokenType::eof); }
+  Token::Ptr END_OF_EXPRESSION() {return next(TokenType::eoe);};  
 
   Token::Ptr KEYWORD(const std::string &word) {
     return next([&](auto tkn) {
@@ -233,7 +234,7 @@ struct RealParser : Parser {
     auto m = mark();
     AST::Ptr e;
     Token::Ptr E;
-    if ((e = expression()) && (E=END_OF_FILE())) {
+    if ((e = expression()) && ((E=END_OF_FILE()) || (E=END_OF_EXPRESSION()))) {
       accept(m);
       if (debug) {
 	std::cerr << "accepted all " << e->toJSON() << std::endl;
@@ -243,6 +244,7 @@ struct RealParser : Parser {
     reject(m);
     return AST::Ptr(NULL);
   }
+
 
   AST::Ptr parse() {
     return all();
