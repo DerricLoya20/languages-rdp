@@ -95,5 +95,21 @@ TEST(AST,Recall) {
   ASSERT_EQ(ast->toJSON(),expect);
 }
 
+TEST(AST,All) {
+  std::vector<AST::Ptr> args;
+  for (int i=1; i<=3; ++i) {
+    int line = 13;
+    int col = 2;
+    Token::Ptr token = Token::number(i,line,col);
+    args.push_back(AST::number(token));
+  }
+  AST::Ptr ast = AST::all(args);
+
+  JSON expect=u8R"-=-({"args":[{"ast-type":"number","token":{"col":2,"line":13,"token-type":"number","type":"token","value":1.0},"type":"ast","value":1.0},{"ast-type":"number","token":{"col":2,"line":13,"token-type":"number","type":"token","value":2.0},"type":"ast","value":2.0},{"ast-type":"number","token":{"col":2,"line":13,"token-type":"number","type":"token","value":3.0},"type":"ast","value":3.0}],"ast-type":"eoe","token":{"col":0,"line":0,"token-type":"eoe","type":"token"},"type":"ast"})-=-"_JSON;
+
+  ASSERT_EQ(ast->getType(),ASTType::all);
+  ASSERT_EQ(ast->toJSON(),expect);
+}
+
 
 

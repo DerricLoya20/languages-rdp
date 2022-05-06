@@ -1,27 +1,33 @@
 #include "calc.h"
 
-int main(int argc, const char *argv[]) {
+int main(int argc, const char *argv[])
+{
   Calc calc;
 
-  for (int argi=1; argi<argc; ++argi) {
-    std::string arg=argv[argi];
-    if (arg=="--mockScanner") {
+  for (int argi = 1; argi < argc; ++argi)
+  {
+    std::string arg = argv[argi];
+    if (arg == "--mockScanner")
+    {
       calc.scanner = Scanner::mock();
       continue;
     }
-    
-    if (arg=="--mockParser") {
+
+    if (arg == "--mockParser")
+    {
       calc.parser = Parser::mock();
       continue;
     }
 
-    if (arg=="--file") {
+    if (arg == "--file")
+    {
       ++argi;
       calc.stream = Scanner::fileStream(argv[argi]);
       continue;
     }
 
-    if (arg=="--string") {
+    if (arg == "--string")
+    {
       ++argi;
       calc.stream = Scanner::stringStream(argv[argi]);
       continue;
@@ -31,26 +37,30 @@ int main(int argc, const char *argv[]) {
     exit(1);
   }
 
-  if (!calc.toolchain()) {
+  if (!calc.toolchain())
+  {
     std::cerr << "toolchain configuration error." << std::endl;
     return 1;
   }
 
-//Put loop around here
-  for(;;){
-    Token:: Ptr eof == calc.scanner->next();
-    if (eof->getType() == TokenType::eof) break;
+  // Put loop around here
+  for (;;)
+  {
+    Token::Ptr eof = calc.scanner->next();
+    if (eof->getType() == TokenType::eof)
+      break;
     calc.scanner->putBack(eof);
-  if (!calc.parse()) {
-    std::cerr << "syntax error: " << calc.prog->toJSON() << std::endl;
-    return 1;
-  }
+    if (!calc.parse())
+    {
+      std::cerr << "syntax error: " << calc.prog->toJSON() << std::endl;
+      return 1;
+    }
 
-  calc.run();
-  
-  std::cout << "ans=" << calc.ans << std::endl;
+    calc.run();
+
+    std::cout << "ans=" << calc.ans << std::endl;
   }
   return 0;
 
-  //and here
+  // and here
 }

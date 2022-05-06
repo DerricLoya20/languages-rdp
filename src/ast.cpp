@@ -11,6 +11,7 @@ std::string ASTTypeToJSON(enum ASTType astType) {
   case ASTType::times: return "times";
   case ASTType::store: return "store";
   case ASTType::recall: return "recall";
+  case ASTType::all: return "all";
   case ASTType::unrecognized: return "unrecognized";    
   default: throw std::range_error("invalid ast type");
   }
@@ -24,6 +25,7 @@ enum ASTType JSONToASTType(const std::string &jsonASTType) {
   if (jsonASTType == "times") return ASTType::times;
   if (jsonASTType == "store") return ASTType::store;
   if (jsonASTType == "recall") return ASTType::recall;
+  if (jsonASTType == "all") return ASTType::all;
   if (jsonASTType == "unrecognized") return ASTType::unrecognized;
   throw std::range_error("invalid ast string");
 }
@@ -116,6 +118,12 @@ AST::Ptr AST::recall(Token::Ptr token) {
   }
 }
 
+AST::Ptr AST::all(const std::vector<Ptr> &args) {
+  Token::Ptr token = Token::eoe(0,0);
+  AST::Ptr ans = Ptr(new AST(token,baseJsonify));
+  ans->args = args;
+  return ans;
+}
 
 ASTType AST::getType() const {
   if (!token) return ASTType::unrecognized;
@@ -128,6 +136,7 @@ ASTType AST::getType() const {
   case TokenType::keyword:
     if (token->getWord() == "S") return ASTType::store;
     if (token->getWord() == "R") return ASTType::recall;
+  case TokenType::eoe: return ASTType::all;
   default: return ASTType::unrecognized;
   }
 }

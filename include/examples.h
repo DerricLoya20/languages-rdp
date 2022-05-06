@@ -12,8 +12,8 @@ struct Example {
   const std::string input;
   const std::vector < Token::Ptr > tokens;
   const AST::Ptr ast;
-  const double ans;
-  Example(const std::string &_input, const std::vector<Token::Ptr> &_tokens, const AST::Ptr &_ast, const double &_ans);
+  const JSON ans;
+  Example(const std::string &_input, const std::vector<Token::Ptr> &_tokens, const AST::Ptr &_ast, const JSON &_ans);
 };
 
 

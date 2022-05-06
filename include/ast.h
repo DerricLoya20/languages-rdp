@@ -4,7 +4,7 @@
 
 #include "token.h"
 
-enum class ASTType { number,recall,store,add,sub,times,divide,unrecognized };
+enum class ASTType { number,recall,store,add,sub,times,divide,unrecognized,all };
 
 std::string ASTTypeToJSON(enum ASTType astType);
 enum ASTType JSONToASTType(const std::string &jsonASTType);
@@ -28,6 +28,7 @@ class AST {
   static Ptr store(Token::Ptr token, Ptr arg0);
   static Ptr recall(Token::Ptr token);
   static Ptr unrecognized(Token::Ptr token);
+  static Ptr all(const std::vector<Ptr> &args);
 
   typedef std::function<JSON (const AST &ast)> Jsonify;
   AST(Token::Ptr _token, const Jsonify &_jsonify);
