@@ -28,6 +28,7 @@ class AST {
   static Ptr store(Token::Ptr token, Ptr arg0);
   static Ptr recall(Token::Ptr token);
   static Ptr unrecognized(Token::Ptr token);
+  static Ptr all(vector<Ptr> expressions);
 
   typedef std::function<JSON (const AST &ast)> Jsonify;
   AST(Token::Ptr _token, const Jsonify &_jsonify);

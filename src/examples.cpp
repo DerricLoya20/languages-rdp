@@ -39,7 +39,7 @@ Example::Ptr ex0() {
 
 Example::Ptr ex1() {
   int line=0, col=0;
-  std::string input = "(4+5)S*R";
+  std::string input = "(4+5)S*R?";
   
   std::vector<Token::Ptr> tokens;
   Token::Ptr tk0Lparen = append(tokens,Token::lparen(line,col++));
@@ -53,13 +53,13 @@ Example::Ptr ex1() {
   Token::Ptr tk8Eoe = append(tokens, Token::eoe(line, col));
   Token::Ptr tk9Eof = append(tokens,Token::eof(line,col++));
 
-  AST::Ptr ast =
-    AST::times(tk6Times,
+  AST::Ptr ast = AST::all({
+    AST::times(tk6Times, 
 	       AST::store(tk5Store,
 			  AST::add(tk2Add,
 				   AST::number(tk1Four),
 				   AST::number(tk3Five))),
-	       AST::recall(tk7Recall));
+	       AST::recall(tk7Recall)) });
 
   double ans = 81;  
 
