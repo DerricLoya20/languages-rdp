@@ -24,7 +24,8 @@ Example::Ptr ex0() {
   Token::Ptr tk1Eof = append(tokens,Token::eof(line,col));        col += 1;
 
   AST::Ptr ast = AST::all({AST::number(tk0Pi), AST::number(tk1Five) }) ;
-  JSON ans = {3.14, 5};
+  JSON ans = {3.14, 5.0};
+  std::cout << "this is what it should be" << ans << std::endl;
 
   return Example::Ptr(new Example(input,tokens,ast,ans));
 }
@@ -63,7 +64,7 @@ Example::Ptr ex1() {
 				   AST::number(tk3Five))),
 	       AST::recall(tk7Recall)), AST::number(tk0Pi) });
 
-  JSON ans = {81};  
+  JSON ans = {81, 3.14};  
 
   return Example::Ptr(new Example(input,tokens,ast,ans));
 }
@@ -77,15 +78,32 @@ Example::Ptr ex2() {
   Token::Ptr tk1Store = append(tokens,Token::keyword("S",line,col++));
   Token::Ptr tk2Add = append(tokens,Token::add(line,col++));
   Token::Ptr tk3Recall = append(tokens,Token::keyword("R",line,col++));
+
+  Token::Ptr tk8Eoe = append(tokens, Token::eoe(line, col++));
+  Token::Ptr tk0Lparen = append(tokens,Token::lparen(line,col++));
+  Token::Ptr tk1Four = append(tokens,Token::number(4,line,col++));
+  Token::Ptr tk2Add2 = append(tokens,Token::add(line,col++));
+  Token::Ptr tk3Five = append(tokens,Token::number(5,line,col++));
+  Token::Ptr tk4Rparen = append(tokens,Token::rparen(line,col++));
+  Token::Ptr tk5Store = append(tokens,Token::keyword("S",line,col++));
+  Token::Ptr tk6Times = append(tokens,Token::times(line,col++));
+  Token::Ptr tk7Recall = append(tokens,Token::keyword("R",line,col++));
   Token::Ptr tk4Eof = append(tokens,Token::eof(line,col++));
 
   AST::Ptr ast = AST::all({AST::add(tk2Add,
 	     AST::store(tk1Store,
-			AST::number(tk0Three)),
-	     AST::recall(tk3Recall))});
+			  AST::number(tk0Three)),
+	     AST::recall(tk3Recall)),
+       AST::times(tk6Times, 
+	       AST::store(tk5Store,
+			  AST::add(tk2Add2,
+				   AST::number(tk1Four),
+				   AST::number(tk3Five))),
+	       AST::recall(tk7Recall))
+       });
     
 
-  JSON ans = {6};
+  JSON ans = {6, 81};
 
   return Example::Ptr(new Example(input,tokens,ast,ans));
 }

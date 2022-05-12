@@ -12,7 +12,9 @@ TEST(VM,Examples) {
     std::cout << ex->input << std::endl;
     VM vm;
     JSON expect = ex->ans;
+    std::cout << expect << std::endl;
     auto result = vm.run(ex->ast);
+    std::cout << result << std::endl;
     ASSERT_EQ(result,expect);
   }
 }
