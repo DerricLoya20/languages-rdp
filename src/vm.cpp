@@ -65,6 +65,17 @@ void VM::exec(AST::Ptr prog, VM::Stack &stack) {
       push(stack,add(a,b));
     }
     break;
+
+  case ASTType::all:
+  {
+    auto expressionTokens[] = [];
+    for (int i = 0; i < args.size(); i++)
+    {
+      exec(prog->args.at(i), stack);
+      expressionTokens[i] = pop(stack);
+    }
+    push(stack, all()) //push all of them to something
+  }
   case ASTType::sub:
     {
       exec(prog->args.at(0),stack);

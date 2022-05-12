@@ -15,19 +15,20 @@ Token::Ptr append(std::vector<Token::Ptr> &tokens, Token::Ptr token) {
 //       3.14
 Example::Ptr ex0() {
   int line=0, col=0;
-  std::string input = "3.14";
+  std::string input = "3.14?5";
   
   std::vector<Token::Ptr> tokens;
   Token::Ptr tk0Pi = append(tokens,Token::number(3.14,line,col)); col += 4;
+  Token::Ptr tk8Eoe = append(tokens, Token::eoe(line, col++));
+  Token::Ptr tk1Five = append(tokens,Token::number(5,line,col)); col += 1;
   Token::Ptr tk1Eof = append(tokens,Token::eof(line,col));        col += 1;
 
-  AST::Ptr ast = AST::all({AST::number(tk0Pi)});
-  JSON ans = {3.14};
+  AST::Ptr ast = AST::all({AST::number(tk0Pi), AST::number(tk1Five) }) ;
+  JSON ans = {3.14, 5};
 
   return Example::Ptr(new Example(input,tokens,ast,ans));
 }
 
-// SCANNER_INPUT1="(4+5)S*R";
 // PARSER_RESULT1=
 //       *
 //      / \
@@ -39,7 +40,7 @@ Example::Ptr ex0() {
 
 Example::Ptr ex1() {
   int line=0, col=0;
-  std::string input = "(4+5)S*R?";
+  std::string input = "(4+5)S*R?3.14";
   
   std::vector<Token::Ptr> tokens;
   Token::Ptr tk0Lparen = append(tokens,Token::lparen(line,col++));
@@ -51,18 +52,18 @@ Example::Ptr ex1() {
   Token::Ptr tk6Times = append(tokens,Token::times(line,col++));
   Token::Ptr tk7Recall = append(tokens,Token::keyword("R",line,col++));
   Token::Ptr tk8Eoe = append(tokens, Token::eoe(line, col++));
+    Token::Ptr tk0Pi = append(tokens,Token::number(3.14,line,col)); col += 4;
   Token::Ptr tk9Eof = append(tokens,Token::eof(line,col++));
 
   AST::Ptr ast = AST::all({
-    AST::times(tk6Times,
+    AST::times(tk6Times, 
 	       AST::store(tk5Store,
 			  AST::add(tk2Add,
 				   AST::number(tk1Four),
 				   AST::number(tk3Five))),
-	       AST::recall(tk7Recall))
-    });
+	       AST::recall(tk7Recall)), AST::number(tk0Pi) });
 
-  double ans = 81;  
+  JSON ans = {81};  
 
   return Example::Ptr(new Example(input,tokens,ast,ans));
 }
@@ -78,11 +79,11 @@ Example::Ptr ex2() {
   Token::Ptr tk3Recall = append(tokens,Token::keyword("R",line,col++));
   Token::Ptr tk4Eof = append(tokens,Token::eof(line,col++));
 
-  AST::Ptr ast = AST::all({
-    AST::add(tk2Add,
+  AST::Ptr ast = AST::all({AST::add(tk2Add,
 	     AST::store(tk1Store,
 			AST::number(tk0Three)),
 	     AST::recall(tk3Recall))});
+    
 
   JSON ans = {6};
 
