@@ -52,10 +52,7 @@ JSON VM::run(AST::Ptr prog)
   Stack stack;
   exec(prog, stack);
   auto garbage = pop(stack);
-  std::cout << garbage << " this is what is output in run" << std::endl;
   auto ans = pop(stack);
-    std::cout << ans << " this is what is output in run secondTry" << std::endl;
-
   if (!stack.empty())
   {
     throw std::range_error("stack not empty");
@@ -68,7 +65,6 @@ void VM::exec(AST::Ptr prog, VM::Stack &stack)
   switch (prog->getType())
   {
   case ASTType::number:
-    std::cout << "a number" << std::endl;
     push(stack, prog->token->getValue());
     break;
   case ASTType::recall:
@@ -93,18 +89,14 @@ void VM::exec(AST::Ptr prog, VM::Stack &stack)
   case ASTType::all:
   {
     JSON ans = {};
-    std::cout << "the stack size before is: " << stack.size() << std::endl;
     for (int i = 0; i < prog->args.size(); i++)
     {
       exec(prog->args.at(i), stack);
       JSON token = pop(stack);
       ans.push_back(token);
       
-      std::cout << token << std::endl;
     }
-    std::cout << ans << std::endl;
   
-    std::cout << "the stack size after is: " << stack.size() << std::endl;
     push(stack, ans);
   }
 

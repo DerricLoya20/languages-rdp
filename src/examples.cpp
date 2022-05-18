@@ -25,7 +25,6 @@ Example::Ptr ex0() {
 
   AST::Ptr ast = AST::all({AST::number(tk0Pi), AST::number(tk1Five) }) ;
   JSON ans = {3.14, 5.0};
-  std::cout << "this is what it should be" << ans << std::endl;
 
   return Example::Ptr(new Example(input,tokens,ast,ans));
 }
